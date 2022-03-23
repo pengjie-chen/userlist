@@ -5,7 +5,7 @@ import ProTable, { ProColumns, TableDropdown } from '@ant-design/pro-table';
 import { useState, FC } from 'react';
 import UserModal from './components/UserModal';
 import { FormValues, SingleUserType } from './data';
-import { editRecord, addUser } from './service';
+import { editRecord, addUser,deleteUser } from './service';
 
 import React, { useEffect, useRef } from 'react'
 
@@ -105,12 +105,14 @@ const UserListPage: FC<UserListProps> = ({ users, dispatch, userListLoading }) =
   }
 
 
-  const confirm = () => {
+  const confirm = async () => {
     const id = record.id
-    dispatch({
-      type: 'users/deleteUser',
-      payload: { id }
-    })
+    await deleteUser({id})
+    reloadHandler()
+    // dispatch({
+    //   type: 'users/deleteUser',
+    //   payload: { id }
+    // })
   }
   const addUserView = () => {
     setModalVisible(true)
